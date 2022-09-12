@@ -1,0 +1,37 @@
+name: docker-build-workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+
+  build-server-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        working-directory: modbus-server
+        run: docker build -t modbus-server .
+  
+  build-client-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Maven Package
+        working-directory: modbus-client
+        run: mvn -B clean compile package -DskipTests
+      - name: Build the Docker image
+        working-directory: modbus-client
+        run: docker build -t modbus-client .
+
+  build-web-ui-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        working-directory: web-ui
+        run: docker build -t web-ui .

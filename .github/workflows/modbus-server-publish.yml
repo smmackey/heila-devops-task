@@ -1,0 +1,45 @@
+name: modbus-server-publish
+
+on:
+  schedule:
+    - cron: '0 5 * * *'
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  
+env:
+  IMAGE_NAME: sarahmackey42/heila-devops-modbus-server
+  
+jobs:
+  build-push-modbus-server:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v2
+        
+      - name: Log into registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v1
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: modbus-server
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
