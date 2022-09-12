@@ -1,0 +1,4 @@
+modbus-server/venv/*
+web-ui/venv/*
+web-ui/__pycache__/*
+.DS_Store

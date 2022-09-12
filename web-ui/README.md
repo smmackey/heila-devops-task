@@ -6,7 +6,7 @@ Data visualizer for the Sunny Boy real and reactive power
 
 python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements
+pip install -r requirements.txt
 
 ##Run: 
 

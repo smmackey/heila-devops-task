@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  web-ui:
+    build: 
+      context: web-ui/.
+    ports:
+      - '5000:5000'
+    environment:
+      FLASK_DEBUG: True
+  modbus-server:
+    build: modbus-server/.
+    ports:
+      - '502'
+    network_mode: host
+  modbus-client:
+    build: modbus-client/.
+    ports:
+      - '502'
+    network_mode: host
