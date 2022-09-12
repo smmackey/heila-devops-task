@@ -11,7 +11,7 @@ env:
   IMAGE_NAME: sarahmackey42/heila-devops-modbus-client
   
 jobs:
-  build-push-web-ui:
+  build-push-modbus-client:
     runs-on: ubuntu-latest
     permissions:
       contents: read
